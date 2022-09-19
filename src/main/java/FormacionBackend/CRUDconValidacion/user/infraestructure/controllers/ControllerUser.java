@@ -159,7 +159,10 @@ y obtiene el teachedr con el id pasado como parametro*/
                               @RequestParam(required = false) String name,
                               @RequestParam(required = false) String surname,
                               @RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") Date createdDate,
-                              @RequestParam(required = false) String dateCondition) {
+                              @RequestParam(required = false) String dateCondition)
+
+    {
+
         HashMap<String, Object> data = new HashMap<>();
 
         if (idUser != null)
@@ -188,15 +191,21 @@ y obtiene el teachedr con el id pasado como parametro*/
     }
 
 
-
     //Seguimos con criteria pero de otro modo
     ////En postman, los campos que hay que escribir en el requestParam son: idUser, name, surname y createdDate(los del query.setParameter("*****", ****)) entrecomillados
-    @GetMapping("/getQuery")
+
+    //Si escribimos localhost:8080/user/getQuery muestra todos los usuarios ordenadosd por id
+    //Si escribimos localhost:8080/user/getQuery/name los ordena por nombre
+    @GetMapping({"/getQuery","/getQuery/{orderBy}"})
     public List<User> getDataQuery(@RequestParam(required = false) Integer idUser,
                                    @RequestParam(required = false) String name,
                                    @RequestParam(required = false) String surname,
                                    @RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") Date createdDate,
-                                   @RequestParam(required = false) String dateCondition) {
+                                   @RequestParam(required = false) String dateCondition,
+                                   @PathVariable(value = "orderBy",required = false) String orderBy)
+
+
+    {
         HashMap<String, Object> data = new HashMap<>();
 
 
@@ -210,6 +219,12 @@ y obtiene el teachedr con el id pasado como parametro*/
 
         if (surname != null)
             sql += " and e.surname = :surname";
+
+        if (orderBy != null) {
+            if (orderBy.equals("name")) {
+                sql += " order by e.name";
+            }
+        }
 
         String cond;
 
@@ -243,6 +258,7 @@ y obtiene el teachedr con el id pasado como parametro*/
 
         if (createdDate != null)
             query.setParameter("createdDate", createdDate);
+
 
         return query.getResultList();
 
