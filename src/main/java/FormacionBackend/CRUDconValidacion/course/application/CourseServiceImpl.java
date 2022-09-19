@@ -11,6 +11,7 @@ import FormacionBackend.CRUDconValidacion.teacher.infraestructure.repository.Tea
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+
 import java.util.List;
 
 @Component
@@ -73,4 +74,5 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> findAll() {
         return courseRepository.findAll();
     }
+
 }
