@@ -2,6 +2,7 @@ package FormacionBackend.CRUDconValidacion.user.infraestructure.repository;
 
 import FormacionBackend.CRUDconValidacion.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +11,6 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findByName(String name);
-
     public List<User>getData(HashMap<String,Object> conditions);
 
     /*

@@ -51,7 +51,7 @@ public class ControllerUser {
 
     /*
      *
-     * Al ser Post, no es necesario indicarle el valor
+     * Al ser el unico Post, no es necesario indicarle el valor
      * Recibimos un JSON UserinputDTO
      * Se lo mandamos a la capa de servicio
      * */
@@ -91,9 +91,7 @@ public class ControllerUser {
 
 
     @GetMapping(value = "/findAll")
-    public List<User> findAll() {
-        return usuarioService.findAll();
-    }
+    public List<User> findAll() {return usuarioService.findAll();}
 
 
     //Probando RestTemplate
@@ -106,6 +104,12 @@ public class ControllerUser {
         System.out.println("En el client RestTemplate. Despues  de llamada a server devolveré: " + code);
         return ResponseEntity.ok(rs.getBody());
     }
+
+
+
+
+
+
 
 
     //Probando feign
@@ -135,7 +139,10 @@ public class ControllerUser {
     }
 
 
-    /*Probando RestTemplate segun pedia el ejercicio
+
+
+
+    /*Probando feign segun pedia el ejercicio
 
 En los endpoint de user, si llamamamos a este metodo, este llama a http://localhost:8080/teacher/obtener del controlador de teacher
 y obtiene el teachedr con el id pasado como parametro*/
@@ -150,6 +157,28 @@ y obtiene el teachedr con el id pasado como parametro*/
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //PROBANDO CRITERIA BUILDER
 
     //Los parametros id, name, surname y fecha son todos opcionales
@@ -162,6 +191,8 @@ y obtiene el teachedr con el id pasado como parametro*/
                               @RequestParam(required = false) String dateCondition)
 
     {
+
+
 
         HashMap<String, Object> data = new HashMap<>();
 
@@ -191,6 +222,9 @@ y obtiene el teachedr con el id pasado como parametro*/
     }
 
 
+
+
+
     //Seguimos con criteria pero de otro modo
     ////En postman, los campos que hay que escribir en el requestParam son: idUser, name, surname y createdDate(los del query.setParameter("*****", ****)) entrecomillados
 
@@ -202,7 +236,9 @@ y obtiene el teachedr con el id pasado como parametro*/
                                    @RequestParam(required = false) String surname,
                                    @RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") Date createdDate,
                                    @RequestParam(required = false) String dateCondition,
-                                   @PathVariable(value = "orderBy",required = false) String orderBy)
+                                   @PathVariable(value = "orderBy",required = false) String orderBy,
+                                   @PathVariable(value = "limitInit", required = false)Integer limitInit,
+                                   @PathVariable(value = "limitFinish", required = false)Integer limitFinish)
 
 
     {
@@ -210,6 +246,7 @@ y obtiene el teachedr con el id pasado como parametro*/
 
 
         String sql = "select e from usuario e where 1=1";
+
 
         if (idUser != null)
             sql += " and e.id = :idUser";
@@ -225,6 +262,8 @@ y obtiene el teachedr con el id pasado como parametro*/
                 sql += " order by e.name";
             }
         }
+
+
 
         String cond;
 
@@ -243,7 +282,7 @@ y obtiene el teachedr con el id pasado como parametro*/
         }
 
         if (createdDate != null)
-            sql += " and e.created " + cond + " :createdDate";
+            sql += " and e.createdDate " + cond + " :createdDate";
 
         TypedQuery<User> query = em.createQuery(sql, User.class);
 
@@ -263,6 +302,5 @@ y obtiene el teachedr con el id pasado como parametro*/
         return query.getResultList();
 
     }
-
 
 }

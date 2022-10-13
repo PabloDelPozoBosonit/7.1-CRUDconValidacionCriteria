@@ -3,6 +3,7 @@ package FormacionBackend.CRUDconValidacion.user.application;
 import FormacionBackend.CRUDconValidacion.user.domain.User;
 import FormacionBackend.CRUDconValidacion.user.infraestructure.dtos.UserInputDTO;
 import FormacionBackend.CRUDconValidacion.user.infraestructure.dtos.UserOutputDTO;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
